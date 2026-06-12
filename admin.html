@@ -461,7 +461,7 @@
          * SETUP BACKEND INTEGRATION
          * Jika Anda mengaktifkan Google Apps Script Web App, tempatkan URL-nya di bawah.
          */
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKYPRfhvY0oBkbidIHi9xMIa2bg66JpUXIM_l5GiYWLDzXVRj0ZtLCVrreY77w0ULS/exec'; 
+        const APPS_SCRIPT_URL = ''; 
         
         let state = {
             properties: [],
@@ -528,8 +528,9 @@
             document.getElementById('table-loader').classList.remove('hidden');
             try {
                 if (APPS_SCRIPT_URL) {
-                    const APPS_SCRIPT_URL = '[https://script.google.com/macros/s/AKfycbyKYPRfhvY0oBkbidIHi9xMIa2bg66JpUXIM_l5GiYWLDzXVRj0ZtLCVrreY77w0ULS/exec](https://script.google.com/macros/s/AKfycbyKYPRfhvY0oBkbidIHi9xMIa2bg66JpUXIM_l5GiYWLDzXVRj0ZtLCVrreY77w0ULS/exec)'; // Ganti dengan URL Web App Anda
-                    const API_TOKEN = 'kostspace-secure-token-2026'; // Harus sama dengan SECRET_TOKEN di backend.gs
+                    const res = await fetch(`${APPS_SCRIPT_URL}?action=getProperties`);
+                    const json = await res.json();
+                    state.properties = json.data;
                 } else {
                     // SINKRONISASI DATA UTAMA DARI HOMEPAGE
                     const localData = localStorage.getItem('kostspace_data');
@@ -764,7 +765,7 @@
             try {
                 if(APPS_SCRIPT_URL) {
                     const res = await fetch(APPS_SCRIPT_URL, {
-                        method: 'https://script.google.com/macros/s/AKfycbyKYPRfhvY0oBkbidIHi9xMIa2bg66JpUXIM_l5GiYWLDzXVRj0ZtLCVrreY77w0ULS/exec',
+                        method: 'POST',
                         body: JSON.stringify({ action: 'saveProperty', payload: payload })
                     });
                     await res.json();
@@ -842,7 +843,7 @@
             try {
                 if(APPS_SCRIPT_URL) {
                     await fetch(APPS_SCRIPT_URL, {
-                        method: 'https://script.google.com/macros/s/AKfycbyKYPRfhvY0oBkbidIHi9xMIa2bg66JpUXIM_l5GiYWLDzXVRj0ZtLCVrreY77w0ULS/exec',
+                        method: 'POST',
                         body: JSON.stringify({ action: 'deleteProperty', id: state.deleteId })
                     });
                     await loadData();
